@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LanguageProvider } from "./context/LanguageContext";
+import Header from "./components/Header";
+import BottomNav from "./components/BottomNav";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+import Home from "./pages/Home";
+import AvailableProducts from "./pages/AvailableProducts";
+import RequestProduct from "./pages/RequestProduct";
+import Orders from "./pages/Orders";
+import Help from "./pages/Help";
+import AdminApp from "./admin/AdminApp";
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <LanguageProvider>
+      <BrowserRouter>
+        <div className="min-h-screen pb-16 bg-light">
+          {/* Offline Alert */}
+          <div
+            id="offlineBox"
+            className="hidden fixed top-0 left-0 right-0 bg-red-500 text-white text-center py-2 z-50"
+          >
+            እባክዎ ኢንተርኔት ያግኙ
+          </div>
+
+          <Header />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<AvailableProducts />} />
+            <Route path="/request" element={<RequestProduct />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/admin/*" element={<AdminApp />} />
+
+          </Routes>
+
+          <BottomNav />
+        </div>
+      </BrowserRouter>
+    </LanguageProvider>
+  );
 }
 
-export default App
+// Offline detection
+window.addEventListener("offline", () => {
+  document.getElementById("offlineBox").classList.remove("hidden");
+});
+
+window.addEventListener("online", () => {
+  document.getElementById("offlineBox").classList.add("hidden");
+});
