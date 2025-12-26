@@ -1,18 +1,19 @@
+import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+dotenv.config();
 
-import mysql from "mysql2";
-
-const db = mysql.createConnection({
-  host: "localhost", // ⬅️ 1. Check if MySQL is running on localhost
-  user: "root",      // ⬅️ 2. Check the user
-  password: "",      // ⬅️ 3. Check the password (usually blank for local root)
-  database: "senait_household_shop", // ⬅️ 4. Check the database name (case-sensitive)
-});
-
-db.connect((err) => {
-  if (err) {
-      console.log("DB connection error:", err); 
-  }
-  else console.log("Connected to MySQL database");
+const db = await mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 4000,
+  ssl: {
+    rejectUnauthorized: true,
+  },
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 export default db;
