@@ -19,24 +19,33 @@ console.log("DB Host:", process.env.DB_HOST ? "OK" : "MISSING");
 console.log("--------------------");
 
 // ✅ FIXED CORS (Vercel + Local)
+// ✅ FIXED CORS SECTION
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://senait-online-shop.vercel.app"
+  "https://senait-seven.vercel.app" // Add this new one from your error log!
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("CORS Rejected for origin:", origin);
         callback(new Error("CORS not allowed"));
       }
     },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
+
+// Manually handle OPTIONS (Pre-flight) to be 100% safe
+app.options("*", cors());
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
