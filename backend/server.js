@@ -16,21 +16,19 @@ const PORT = process.env.PORT || 5000;
 console.log("--- System Check ---");
 console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "OK" : "MISSING");
 console.log("DB Host:", process.env.DB_HOST ? "OK" : "MISSING");
+console.log("VITE_API_URL:", process.env.VITE_API_URL ? "OK" : "MISSING");
 console.log("--------------------");
 
 // ✅ FIXED CORS (Vercel + Local)
-// ✅ FIXED CORS SECTION
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://senait-seven.vercel.app" // Add this new one from your error log!
+  "https://senait-seven.vercel.app/" // Your Vercel frontend URL
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl)
       if (!origin) return callback(null, true);
-      
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -44,9 +42,10 @@ app.use(
   })
 );
 
-// Manually handle OPTIONS (Pre-flight) to be 100% safe
+// Manually handle OPTIONS (Pre-flight)
 app.options("*", cors());
 
+// Body parser
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
