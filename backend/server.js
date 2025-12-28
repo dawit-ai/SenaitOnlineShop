@@ -20,30 +20,17 @@ console.log("VITE_API_URL:", process.env.VITE_API_URL ? "OK" : "MISSING");
 console.log("--------------------");
 
 // ✅ FIXED CORS (Vercel + Local)
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://senait-seven.vercel.app" // Your Vercel frontend URL
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        console.log("CORS Rejected for origin:", origin);
-        callback(new Error("CORS not allowed"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    credentials: true,
+    origin: [
+      "http://localhost:5173",
+      "https://senait-seven.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
-// Manually handle OPTIONS (Pre-flight)
-app.options("*", cors());
 
 // Body parser
 app.use(express.json({ limit: "50mb" }));
