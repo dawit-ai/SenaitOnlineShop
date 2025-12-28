@@ -22,7 +22,7 @@ console.log("--------------------");
 // ✅ FIXED CORS (Vercel + Local)
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://senait-seven.vercel.app/" // Your Vercel frontend URL
+  "https://senait-seven.vercel.app" // Your Vercel frontend URL
 ];
 
 app.use(
