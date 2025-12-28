@@ -1,3 +1,5 @@
+// app.js
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -19,7 +21,7 @@ console.log("DB Host:", process.env.DB_HOST ? "OK" : "MISSING");
 console.log("VITE_API_URL:", process.env.VITE_API_URL ? "OK" : "MISSING");
 console.log("--------------------");
 
-// ✅ FIXED CORS (Vercel + Local)
+// ✅ FIXED CORS (Vercel + Local) - ADDED credentials: true
 app.use(
   cors({
     origin: [
@@ -27,7 +29,9 @@ app.use(
       "https://senait-seven.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization"],
+    // THIS IS THE CRITICAL LINE TO ADD/ENSURE IS PRESENT
+    credentials: true 
   })
 );
 
