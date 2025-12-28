@@ -9,7 +9,7 @@ console.log("🚀 Current API Target:", API_URL);
 // 2. Create ONE axios instance
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, 
+
 });
 
 // ============================
