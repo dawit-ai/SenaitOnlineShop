@@ -11,6 +11,9 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM products ORDER BY id DESC");
+    // ✅ ADDED: Cache-Control header for client-side caching
+    // Caches the response for 1 hour (3600 seconds)
+    res.set("Cache-Control", "public, max-age=3600");
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });

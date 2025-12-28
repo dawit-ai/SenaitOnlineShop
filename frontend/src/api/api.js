@@ -4,6 +4,7 @@ import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL || "https://senait-backend.onrender.com";
 
 // Debug to verify in browser console
+console.log("🔥 AXIOS VERSION: NO CREDENTIALS");
 console.log("🚀 Current API Target:", API_URL);
 
 // 2. Create ONE axios instance
