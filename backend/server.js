@@ -20,16 +20,7 @@ console.log("VITE_API_URL:", process.env.VITE_API_URL ? "OK" : "MISSING");
 console.log("--------------------");
 
 // ✅ FIXED CORS (Vercel + Local)
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://senait-seven.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"]
-  })
-);
+app.use(cors());
 
 
 // Body parser
